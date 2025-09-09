@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "message": "Hello! I'm your AI career advisor. How can I help you today?",
+    "sender": "ai",
+    "timestamp": "2025-01-20T10:00:00Z"
+  },
+  {
+    "id": 2,
+    "message": "Hi! I'm interested in transitioning from marketing to data science. Where should I start?",
+    "sender": "user",
+    "timestamp": "2025-01-20T10:01:00Z"
+  },
+  {
+    "id": 3,
+    "message": "Great choice! Data science is a rapidly growing field. Based on your marketing background, you already have valuable skills in analytics and understanding customer behavior. Here's a personalized roadmap:\n\n1. **Start with Python** - Essential for data science\n2. **Learn SQL** - Critical for data manipulation\n3. **Statistics & Probability** - Foundation for analysis\n4. **Data Visualization** - Leverage your marketing eye for design\n\nWould you like me to recommend specific courses for any of these areas?",
+    "sender": "ai",
+    "timestamp": "2025-01-20T10:02:00Z"
+  },
+  {
+    "id": 4,
+    "message": "Yes, please! I'd love some Python course recommendations.",
+    "sender": "user",
+    "timestamp": "2025-01-20T10:03:00Z"
+  },
+  {
+    "id": 5,
+    "message": "Perfect! Here are my top Python recommendations for beginners:\n\n🎯 **Beginner-Friendly:**\n• Python for Everybody (Coursera) - University of Michigan\n• Automate the Boring Stuff with Python (Free book/course)\n\n🔬 **Data Science Focused:**\n• Python for Data Science (DataCamp)\n• Introduction to Python for Data Science (edX)\n\n💡 **Interactive Practice:**\n• Codecademy's Python course\n• HackerRank Python challenges\n\nI recommend starting with 'Python for Everybody' as it's comprehensive and beginner-friendly. Should take about 2-3 months with consistent practice!",
+    "sender": "ai",
+    "timestamp": "2025-01-20T10:05:00Z"
+  }
+]

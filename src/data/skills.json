@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "name": "JavaScript",
+    "category": "Programming",
+    "progress": 85,
+    "isCompleted": false,
+    "priority": "high",
+    "estimatedTime": "3 months"
+  },
+  {
+    "id": 2,
+    "name": "React",
+    "category": "Frontend",
+    "progress": 70,
+    "isCompleted": false,
+    "priority": "high",
+    "estimatedTime": "2 months"
+  },
+  {
+    "id": 3,
+    "name": "Python",
+    "category": "Programming",
+    "progress": 90,
+    "isCompleted": true,
+    "priority": "medium",
+    "estimatedTime": "4 months"
+  },
+  {
+    "id": 4,
+    "name": "Data Visualization",
+    "category": "Analytics",
+    "progress": 60,
+    "isCompleted": false,
+    "priority": "medium",
+    "estimatedTime": "6 weeks"
+  },
+  {
+    "id": 5,
+    "name": "Machine Learning",
+    "category": "AI/ML",
+    "progress": 45,
+    "isCompleted": false,
+    "priority": "high",
+    "estimatedTime": "6 months"
+  },
+  {
+    "id": 6,
+    "name": "AWS Cloud",
+    "category": "Cloud",
+    "progress": 30,
+    "isCompleted": false,
+    "priority": "medium",
+    "estimatedTime": "8 weeks"
+  },
+  {
+    "id": 7,
+    "name": "SQL",
+    "category": "Database",
+    "progress": 95,
+    "isCompleted": true,
+    "priority": "low",
+    "estimatedTime": "2 months"
+  },
+  {
+    "id": 8,
+    "name": "Figma",
+    "category": "Design",
+    "progress": 55,
+    "isCompleted": false,
+    "priority": "medium",
+    "estimatedTime": "4 weeks"
+  }
+]

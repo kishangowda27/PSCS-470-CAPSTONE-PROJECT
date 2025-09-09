@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "title": "Data Scientist",
+    "description": "Analyze complex datasets to extract insights and build predictive models using machine learning and statistical techniques.",
+    "requiredSkills": ["Python", "Machine Learning", "Statistics", "SQL", "Data Visualization"],
+    "averageSalary": "₹15 LPA",
+    "growthRate": "22%",
+    "category": "Technology"
+  },
+  {
+    "id": 2,
+    "title": "UX/UI Designer",
+    "description": "Create intuitive and visually appealing user interfaces while ensuring optimal user experience across digital platforms.",
+    "requiredSkills": ["Figma", "User Research", "Prototyping", "Visual Design", "Usability Testing"],
+    "averageSalary": "₹10 LPA",
+    "growthRate": "13%",
+    "category": "Design"
+  },
+  {
+    "id": 3,
+    "title": "Cloud Solutions Architect",
+    "description": "Design and implement scalable cloud infrastructure solutions for enterprise-level applications.",
+    "requiredSkills": ["AWS", "Azure", "System Design", "DevOps", "Security"],
+    "averageSalary": "₹25 LPA",
+    "growthRate": "15%",
+    "category": "Technology"
+  },
+  {
+    "id": 4,
+    "title": "Digital Marketing Manager",
+    "description": "Develop and execute comprehensive digital marketing strategies to drive brand awareness and customer acquisition.",
+    "requiredSkills": ["SEO/SEM", "Social Media", "Analytics", "Content Strategy", "PPC"],
+    "averageSalary": "₹8 LPA",
+    "growthRate": "10%",
+    "category": "Marketing"
+  },
+  {
+    "id": 5,
+    "title": "Cybersecurity Analyst",
+    "description": "Protect organizational assets by monitoring, detecting, and responding to security threats and vulnerabilities.",
+    "requiredSkills": ["Network Security", "Incident Response", "Risk Assessment", "Penetration Testing", "SIEM"],
+    "averageSalary": "₹12 LPA",
+    "growthRate": "33%",
+    "category": "Technology"
+  },
+  {
+    "id": 6,
+    "title": "Product Manager",
+    "description": "Drive product strategy and roadmap, working cross-functionally to deliver innovative solutions that meet market needs.",
+    "requiredSkills": ["Product Strategy", "Agile", "Market Research", "Data Analysis", "Communication"],
+    "averageSalary": "₹20 LPA",
+    "growthRate": "19%",
+    "category": "Management"
+  }
+]

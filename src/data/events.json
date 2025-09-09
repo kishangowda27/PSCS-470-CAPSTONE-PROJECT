@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "title": "Tech Career Fair 2025",
+    "date": "2025-02-15",
+    "time": "10:00 AM - 4:00 PM",
+    "location": "Bengaluru International Exhibition Centre",
+    "type": "Career Fair",
+    "description": "Connect with leading tech companies and explore exciting career opportunities.",
+    "attendees": 500,
+    "isVirtual": false
+  },
+  {
+    "id": 2,
+    "title": "AI & Machine Learning Workshop",
+    "date": "2025-02-20",
+    "time": "2:00 PM - 5:00 PM",
+    "location": "Online",
+    "type": "Workshop",
+    "description": "Hands-on workshop covering the fundamentals of AI and machine learning.",
+    "attendees": 150,
+    "isVirtual": true
+  },
+  {
+    "id": 3,
+    "title": "Women in Tech Networking Event",
+    "date": "2025-02-25",
+    "time": "6:00 PM - 9:00 PM",
+    "location": "WeWork, Mumbai",
+    "type": "Networking",
+    "description": "Networking event focused on connecting women in technology.",
+    "attendees": 80,
+    "isVirtual": false
+  },
+  {
+    "id": 4,
+    "title": "Startup Pitch Competition",
+    "date": "2025-03-05",
+    "time": "1:00 PM - 6:00 PM",
+    "location": "T-Hub, Hyderabad",
+    "type": "Competition",
+    "description": "Showcase your startup ideas to investors and industry experts.",
+    "attendees": 200,
+    "isVirtual": false
+  }
+]
