@@ -2,8 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Bell, User, Menu } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = ({ onMenuClick }) => {
+  const { user, userProfile } = useAuth();
+  
   return (
     <nav className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 fixed w-full top-0 z-40">
       <div className="px-4 sm:px-6 h-16 flex items-center justify-between">
@@ -34,7 +37,9 @@ const Navbar = ({ onMenuClick }) => {
             <div className="w-8 h-8 bg-primary-100 dark:bg-primary-500/20 rounded-full flex items-center justify-center">
               <User className="h-4 w-4 text-primary-600 dark:text-primary-400" />
             </div>
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300 hidden md:block">John Doe</span>
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300 hidden md:block">
+              {userProfile?.name || user?.email?.split('@')[0] || 'User'}
+            </span>
           </Link>
         </div>
       </div>

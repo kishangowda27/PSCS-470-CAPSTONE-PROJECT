@@ -2,8 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Card from '../components/Card';
 import { TrendingUp, Target, Calendar, MessageCircle, Users, Award } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const Dashboard = () => {
+  const { user, userProfile } = useAuth();
+  
   const stats = [
     { icon: Target, label: 'Skills Completed', value: '12', change: '+3 this month', color: 'text-green-600 dark:text-green-400' },
     { icon: TrendingUp, label: 'Career Progress', value: '68%', change: '+12% this month', color: 'text-blue-600 dark:text-blue-400' },
@@ -22,7 +25,9 @@ const Dashboard = () => {
     <div className="space-y-6">
       {/* Welcome Section */}
       <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg p-6 text-white">
-        <h1 className="text-xl sm:text-2xl font-bold mb-2">Welcome back, John! 👋</h1>
+        <h1 className="text-xl sm:text-2xl font-bold mb-2">
+          Welcome back, {userProfile?.name || user?.email?.split('@')[0] || 'User'}! 👋
+        </h1>
         <p className="text-primary-100">Ready to advance your career? Let's continue your journey towards becoming a Data Scientist.</p>
       </div>
 

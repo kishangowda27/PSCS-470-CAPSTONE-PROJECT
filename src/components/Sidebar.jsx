@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { 
   LayoutDashboard, 
   MapPin, 
@@ -9,11 +10,18 @@ import {
   User, 
   Info, 
   Mail,
-  X
+  X,
+  LogOut
 } from 'lucide-react';
 
 const Sidebar = ({ isOpen, onClose }) => {
   const location = useLocation();
+  const { signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    await signOut();
+    onClose();
+  };
 
   const navItems = [
     { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -69,6 +77,17 @@ const Sidebar = ({ isOpen, onClose }) => {
             );
           })}
         </ul>
+        
+        {/* Sign Out Button */}
+        <div className="mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <button
+            onClick={handleSignOut}
+            className="flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white w-full"
+          >
+            <LogOut className="h-5 w-5" />
+            <span className="font-medium">Sign Out</span>
+          </button>
+        </div>
       </nav>
     </aside>
   );
