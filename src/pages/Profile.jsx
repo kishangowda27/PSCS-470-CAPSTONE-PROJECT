@@ -1,31 +1,90 @@
-import React, { useState } from 'react';
-import Card from '../components/Card';
-import { User, Mail, Briefcase, MapPin, Calendar, Edit3, Save, X } from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import Card from "../components/Card";
+import {
+  User,
+  Mail,
+  Briefcase,
+  MapPin,
+  Calendar,
+  Edit3,
+  Save,
+  X,
+} from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
 const Profile = () => {
+  const { user, userProfile, updateProfile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+
   const [profile, setProfile] = useState({
-    name: 'John Doe',
-    email: 'john.doe@email.com',
-    phone: '+91 98765 43210',
-    location: 'Bengaluru, KA',
-    title: 'Aspiring Data Scientist',
-    company: 'Currently Learning',
-    bio: 'Passionate about data science and machine learning. Currently transitioning from marketing to tech with a focus on building analytical and programming skills.',
-    interests: ['Data Science', 'Machine Learning', 'Python', 'Statistics', 'Data Visualization'],
-    joinDate: '2024-11-15'
+    name: "Your Name",
+    email: user?.email || "",
+    phone: "",
+    location: "",
+    title: "",
+    company: "",
+    bio: "",
+    interests: [],
+    joinDate: new Date().toISOString().slice(0, 10),
   });
 
   const [editedProfile, setEditedProfile] = useState(profile);
+
+  useEffect(() => {
+    if (userProfile || user) {
+      const populated = {
+        name: userProfile?.name || "Your Name",
+        email: userProfile?.email || user?.email || "",
+        phone: userProfile?.phone || "",
+        location: userProfile?.location || "",
+        title: userProfile?.title || "",
+        company: userProfile?.company || "",
+        bio: userProfile?.bio || "",
+        interests: Array.isArray(userProfile?.interests)
+          ? userProfile.interests
+          : [],
+        joinDate:
+          userProfile?.created_at || new Date().toISOString().slice(0, 10),
+      };
+      setProfile(populated);
+      setEditedProfile(populated);
+    }
+  }, [userProfile, user]);
 
   const handleEdit = () => {
     setIsEditing(true);
     setEditedProfile(profile);
   };
 
-  const handleSave = () => {
-    setProfile(editedProfile);
-    setIsEditing(false);
+  const handleSave = async () => {
+    if (!user) return;
+    try {
+      setSaving(true);
+      setError("");
+      const updates = {
+        name: editedProfile.name || "",
+        email: editedProfile.email || user?.email || "",
+        phone: editedProfile.phone || "",
+        location: editedProfile.location || "",
+        title: editedProfile.title || "",
+        company: editedProfile.company || "",
+        bio: editedProfile.bio || "",
+        interests: Array.isArray(editedProfile.interests)
+          ? editedProfile.interests
+          : [],
+      };
+      const { error: updateError } = await updateProfile(updates);
+      if (updateError) {
+        setError(updateError.message || "Failed to save profile");
+        return;
+      }
+      setProfile((prev) => ({ ...prev, ...updates }));
+      setIsEditing(false);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleCancel = () => {
@@ -34,24 +93,27 @@ const Profile = () => {
   };
 
   const handleInputChange = (field, value) => {
-    setEditedProfile(prev => ({
+    setEditedProfile((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
   const handleInterestsChange = (value) => {
-    const interests = value.split(',').map(item => item.trim()).filter(item => item);
-    setEditedProfile(prev => ({
+    const interests = value
+      .split(",")
+      .map((item) => item.trim())
+      .filter((item) => item);
+    setEditedProfile((prev) => ({
       ...prev,
-      interests
+      interests,
     }));
   };
 
   const formatJoinDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-IN', {
-      year: 'numeric',
-      month: 'long'
+    return new Date(dateString).toLocaleDateString("en-IN", {
+      year: "numeric",
+      month: "long",
     });
   };
 
@@ -59,10 +121,14 @@ const Profile = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Profile</h1>
-          <p className="text-gray-600 dark:text-gray-400">Manage your personal information and preferences</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            Profile
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400">
+            Manage your personal information and preferences
+          </p>
         </div>
-        
+
         {!isEditing ? (
           <button
             onClick={handleEdit}
@@ -78,7 +144,7 @@ const Profile = () => {
               className="flex flex-1 sm:flex-none items-center justify-center space-x-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors"
             >
               <Save className="h-4 w-4" />
-              <span>Save</span>
+              <span>{saving ? "Saving..." : "Save"}</span>
             </button>
             <button
               onClick={handleCancel}
@@ -98,15 +164,21 @@ const Profile = () => {
             <div className="w-24 h-24 bg-primary-100 dark:bg-primary-500/20 rounded-full flex items-center justify-center mx-auto">
               <User className="h-12 w-12 text-primary-600 dark:text-primary-400" />
             </div>
-            
+
             {!isEditing ? (
               <>
                 <div>
-                  <h2 className="text-xl font-bold text-gray-900 dark:text-white">{profile.name}</h2>
-                  <p className="text-gray-600 dark:text-gray-400">{profile.title}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-500">{profile.company}</p>
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                    {profile.name}
+                  </h2>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    {profile.title}
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-500">
+                    {profile.company}
+                  </p>
                 </div>
-                
+
                 <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
                   <div className="flex items-center justify-center space-x-2">
                     <Mail className="h-4 w-4" />
@@ -127,19 +199,19 @@ const Profile = () => {
                 <input
                   type="text"
                   value={editedProfile.name}
-                  onChange={(e) => handleInputChange('name', e.target.value)}
+                  onChange={(e) => handleInputChange("name", e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-center font-bold bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
                 <input
                   type="text"
                   value={editedProfile.title}
-                  onChange={(e) => handleInputChange('title', e.target.value)}
+                  onChange={(e) => handleInputChange("title", e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-center bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
                 <input
                   type="text"
                   value={editedProfile.company}
-                  onChange={(e) => handleInputChange('company', e.target.value)}
+                  onChange={(e) => handleInputChange("company", e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-center text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
               </div>
@@ -149,61 +221,86 @@ const Profile = () => {
 
         {/* Detailed Information */}
         <Card className="lg:col-span-2 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Personal Information</h3>
-          
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
+            Personal Information
+          </h3>
+
           <div className="space-y-6">
+            {error && (
+              <div className="p-3 rounded-lg bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-400">
+                {error}
+              </div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email Address</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Email Address
+                </label>
                 {!isEditing ? (
-                  <p className="text-gray-900 dark:text-white break-words">{profile.email}</p>
+                  <p className="text-gray-900 dark:text-white break-words">
+                    {profile.email}
+                  </p>
                 ) : (
                   <input
                     type="email"
                     value={editedProfile.email}
-                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    onChange={(e) => handleInputChange("email", e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   />
                 )}
               </div>
-              
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Phone Number</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Phone Number
+                </label>
                 {!isEditing ? (
-                  <p className="text-gray-900 dark:text-white">{profile.phone}</p>
+                  <p className="text-gray-900 dark:text-white">
+                    {profile.phone}
+                  </p>
                 ) : (
                   <input
                     type="tel"
                     value={editedProfile.phone}
-                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                    onChange={(e) => handleInputChange("phone", e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   />
                 )}
               </div>
-              
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Location
+                </label>
                 {!isEditing ? (
-                  <p className="text-gray-900 dark:text-white">{profile.location}</p>
+                  <p className="text-gray-900 dark:text-white">
+                    {profile.location}
+                  </p>
                 ) : (
                   <input
                     type="text"
                     value={editedProfile.location}
-                    onChange={(e) => handleInputChange('location', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("location", e.target.value)
+                    }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   />
                 )}
               </div>
-              
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Current Title</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Current Title
+                </label>
                 {!isEditing ? (
-                  <p className="text-gray-900 dark:text-white">{profile.title}</p>
+                  <p className="text-gray-900 dark:text-white">
+                    {profile.title}
+                  </p>
                 ) : (
                   <input
                     type="text"
                     value={editedProfile.title}
-                    onChange={(e) => handleInputChange('title', e.target.value)}
+                    onChange={(e) => handleInputChange("title", e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   />
                 )}
@@ -211,13 +308,15 @@ const Profile = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Bio</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Bio
+              </label>
               {!isEditing ? (
                 <p className="text-gray-900 dark:text-white">{profile.bio}</p>
               ) : (
                 <textarea
                   value={editedProfile.bio}
-                  onChange={(e) => handleInputChange('bio', e.target.value)}
+                  onChange={(e) => handleInputChange("bio", e.target.value)}
                   rows={4}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
@@ -225,7 +324,9 @@ const Profile = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Interests</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Interests
+              </label>
               {!isEditing ? (
                 <div className="flex flex-wrap gap-2">
                   {profile.interests.map((interest, index) => (
@@ -241,12 +342,14 @@ const Profile = () => {
                 <div>
                   <input
                     type="text"
-                    value={editedProfile.interests.join(', ')}
+                    value={editedProfile.interests.join(", ")}
                     onChange={(e) => handleInterestsChange(e.target.value)}
                     placeholder="Enter interests separated by commas"
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   />
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Separate interests with commas</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    Separate interests with commas
+                  </p>
                 </div>
               )}
             </div>
@@ -257,20 +360,36 @@ const Profile = () => {
       {/* Statistics */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         <Card className="p-6 text-center">
-          <div className="text-2xl font-bold text-primary-600 dark:text-primary-400">68%</div>
-          <div className="text-sm text-gray-600 dark:text-gray-400">Profile Complete</div>
+          <div className="text-2xl font-bold text-primary-600 dark:text-primary-400">
+            68%
+          </div>
+          <div className="text-sm text-gray-600 dark:text-gray-400">
+            Profile Complete
+          </div>
         </Card>
         <Card className="p-6 text-center">
-          <div className="text-2xl font-bold text-green-600 dark:text-green-400">12</div>
-          <div className="text-sm text-gray-600 dark:text-gray-400">Skills Learned</div>
+          <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+            12
+          </div>
+          <div className="text-sm text-gray-600 dark:text-gray-400">
+            Skills Learned
+          </div>
         </Card>
         <Card className="p-6 text-center">
-          <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">8</div>
-          <div className="text-sm text-gray-600 dark:text-gray-400">Events Attended</div>
+          <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+            8
+          </div>
+          <div className="text-sm text-gray-600 dark:text-gray-400">
+            Events Attended
+          </div>
         </Card>
         <Card className="p-6 text-center">
-          <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">24</div>
-          <div className="text-sm text-gray-600 dark:text-gray-400">AI Sessions</div>
+          <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+            24
+          </div>
+          <div className="text-sm text-gray-600 dark:text-gray-400">
+            AI Sessions
+          </div>
         </Card>
       </div>
     </div>
