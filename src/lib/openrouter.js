@@ -1,6 +1,6 @@
 const OPENROUTER_API_KEY =
   import.meta.env.VITE_OPENROUTER_API_KEY ||
-  "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";
+  "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";
 const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
 const OPENROUTER_DEFAULT_MODEL =
   import.meta.env.VITE_OPENROUTER_MODEL || "openai/gpt-4o-mini"; // fast + strong

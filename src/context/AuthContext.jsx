@@ -50,6 +50,26 @@ export const AuthProvider = ({ children }) => {
         console.error("Error loading user profile:", error);
         return;
       }
+
+      // If no profile exists, create a starter profile now that the user is authenticated
+      if (!data) {
+        const starter = {
+          name: user?.email?.split("@")[0] || "",
+          email: user?.email || "",
+          created_at: new Date().toISOString(),
+        };
+        const { error: createErr } = await db.createUserProfile(
+          userId,
+          starter
+        );
+        if (createErr) {
+          console.error("Error creating starter profile:", createErr);
+          return;
+        }
+        setUserProfile({ user_id: userId, ...starter });
+        return;
+      }
+
       setUserProfile(data);
     } catch (error) {
       console.error("Error loading user profile:", error);
@@ -87,6 +107,10 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       const { data, error } = await auth.signIn(email, password);
+      if (!error && data?.user) {
+        // Ensure profile exists right after login
+        await loadUserProfile(data.user.id);
+      }
       return { data, error };
     } catch (error) {
       console.error("Sign in error:", error);
@@ -117,9 +141,24 @@ export const AuthProvider = ({ children }) => {
     if (!user) return { error: new Error("No user logged in") };
 
     try {
-      const { data, error } = await db.updateUserProfile(user.id, updates);
+      // Only allow columns that exist to avoid schema errors
+      const allowedKeys = new Set([
+        "name",
+        "email",
+        "phone",
+        "location",
+        "title",
+        "company",
+        "bio",
+        "interests",
+      ]);
+      const safeUpdates = Object.fromEntries(
+        Object.entries(updates).filter(([k]) => allowedKeys.has(k))
+      );
+
+      const { data, error } = await db.updateUserProfile(user.id, safeUpdates);
       if (!error) {
-        setUserProfile((prev) => ({ ...prev, ...updates }));
+        setUserProfile((prev) => ({ ...prev, ...safeUpdates }));
       }
       return { data, error };
     } catch (error) {

@@ -17,6 +17,7 @@ import Events from "./pages/Events";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Onboarding from "./pages/Onboarding";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             }
           >
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/onboarding" element={<Onboarding />} />
             <Route path="/careers" element={<Careers />} />
             <Route path="/skills" element={<Skills />} />
             <Route path="/chat" element={<Chat />} />

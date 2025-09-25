@@ -19,7 +19,7 @@ const Profile = () => {
   const [error, setError] = useState("");
 
   const [profile, setProfile] = useState({
-    name: "Your Name",
+    name: user?.user_metadata?.name || user?.email?.split("@")[0] || "User",
     email: user?.email || "",
     phone: "",
     location: "",
@@ -35,8 +35,12 @@ const Profile = () => {
   useEffect(() => {
     if (userProfile || user) {
       const populated = {
-        name: userProfile?.name || "Your Name",
-        email: userProfile?.email || user?.email || "",
+        name:
+          userProfile?.name ||
+          user?.user_metadata?.name ||
+          user?.email?.split("@")[0] ||
+          "User",
+        email: user?.email || userProfile?.email || "",
         phone: userProfile?.phone || "",
         location: userProfile?.location || "",
         title: userProfile?.title || "",
@@ -46,7 +50,9 @@ const Profile = () => {
           ? userProfile.interests
           : [],
         joinDate:
-          userProfile?.created_at || new Date().toISOString().slice(0, 10),
+          userProfile?.created_at ||
+          user?.created_at ||
+          new Date().toISOString().slice(0, 10),
       };
       setProfile(populated);
       setEditedProfile(populated);
@@ -232,6 +238,23 @@ const Profile = () => {
               </div>
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Full Name
+                </label>
+                {!isEditing ? (
+                  <p className="text-gray-900 dark:text-white break-words">
+                    {profile.name}
+                  </p>
+                ) : (
+                  <input
+                    type="text"
+                    value={editedProfile.name}
+                    onChange={(e) => handleInputChange("name", e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  />
+                )}
+              </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Email Address
