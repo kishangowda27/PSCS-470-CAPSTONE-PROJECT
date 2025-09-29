@@ -25,8 +25,12 @@ export const openRouterAPI = {
       const data = await response.json();
 
       if (!response.ok) {
-        const apiMessage =
-          data?.error?.message || data?.message || JSON.stringify(data);
+        const apiMessage = data?.error?.message || data?.message || JSON.stringify(data);
+        // If local dev server doesn't serve /api (e.g., Vite), fall back to direct OpenRouter call
+        if (typeof window !== "undefined" && window.location?.hostname === "localhost") {
+          console.warn("/api/chat unavailable or failing locally; falling back to direct OpenRouter call");
+          return await directOpenRouterCall(messages, model);
+        }
         throw new Error(`Chat API error ${response.status}: ${apiMessage}`);
       }
       return {
@@ -35,11 +39,17 @@ export const openRouterAPI = {
         usage: data.usage,
       };
     } catch (error) {
+      // Network or parsing error; try local fallback in dev
+      if (typeof window !== "undefined" && window.location?.hostname === "localhost") {
+        console.warn("/api/chat request failed; attempting direct OpenRouter fallback:", error?.message);
+        try {
+          return await directOpenRouterCall(messages, model);
+        } catch (fallbackError) {
+          console.error("Direct OpenRouter fallback failed:", fallbackError);
+        }
+      }
       console.error("OpenRouter API Error:", error);
-      return {
-        success: false,
-        error: error.message,
-      };
+      return { success: false, error: error.message };
     }
   },
 
@@ -70,3 +80,65 @@ Keep responses concise but comprehensive, around 200-300 words.`;
     return await openRouterAPI.sendMessage(messages);
   },
 };
+
+// Local dev fallback: call OpenRouter directly from the browser using VITE_OPENROUTER_API_KEY
+async function directOpenRouterCall(messages, model) {
+  const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY;
+  if (!apiKey) {
+    throw new Error("Missing VITE_OPENROUTER_API_KEY for local fallback.");
+  }
+  const url = "https://openrouter.ai/api/v1/chat/completions";
+  let response = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+      "HTTP-Referer": window.location.origin,
+      "X-Title": "AI Career Guidance System (Local)",
+    },
+    body: JSON.stringify({
+      model,
+      messages,
+      temperature: 0.2,
+      max_tokens: 500,
+      stream: false,
+    }),
+  });
+
+  if (!response.ok && (response.status === 429 || response.status >= 500)) {
+    await new Promise((r) => setTimeout(r, 600));
+    response = await fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": window.location.origin,
+        "X-Title": "AI Career Guidance System (Local)",
+      },
+      body: JSON.stringify({
+        model,
+        messages,
+        temperature: 0.2,
+        max_tokens: 500,
+        stream: false,
+      }),
+    });
+  }
+
+  const data = await response.json();
+  if (!response.ok) {
+    const apiMessage = data?.error?.message || data?.message || JSON.stringify(data);
+    if (response.status === 401 || response.status === 403) {
+      throw new Error(
+        `OpenRouter auth failed in local fallback (${response.status}). Check VITE_OPENROUTER_API_KEY. Details: ${apiMessage}`
+      );
+    }
+    throw new Error(`OpenRouter fallback error ${response.status}: ${apiMessage}`);
+  }
+
+  return {
+    success: true,
+    message: data.choices?.[0]?.message?.content || "No response received",
+    usage: data.usage,
+  };
+}
