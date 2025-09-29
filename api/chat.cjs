@@ -21,7 +21,10 @@ module.exports = async (req, res) => {
   try {
     const vercelHost = process.env.VERCEL_URL; // e.g. my-app.vercel.app
     const inferredOrigin = vercelHost ? `https://${vercelHost}` : undefined;
-    const referer = inferredOrigin || req.headers?.origin || `https://${req.headers?.host || 'vercel.app'}`;
+    const referer =
+      inferredOrigin ||
+      req.headers?.origin ||
+      `https://${req.headers?.host || "vercel.app"}`;
     const { messages, model } = req.body || {};
     if (!Array.isArray(messages) || messages.length === 0) {
       return res
