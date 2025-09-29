@@ -1,52 +1,24 @@
-const OPENROUTER_API_KEY =
-  import.meta.env.VITE_OPENROUTER_API_KEY ||
-  "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";
-const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
+// Frontend client now calls our secure serverless route instead of OpenRouter directly
+const INTERNAL_CHAT_API = "/api/chat";
 const OPENROUTER_DEFAULT_MODEL =
   import.meta.env.VITE_OPENROUTER_MODEL || "openai/gpt-4o-mini"; // fast + strong
-
-if (!OPENROUTER_API_KEY) {
-  throw new Error("Missing OpenRouter API key. Please check your .env file.");
-}
 
 export const openRouterAPI = {
   sendMessage: async (messages, model = OPENROUTER_DEFAULT_MODEL) => {
     try {
-      let response = await fetch(OPENROUTER_API_URL, {
+      let response = await fetch(INTERNAL_CHAT_API, {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${OPENROUTER_API_KEY}`,
-          "Content-Type": "application/json",
-          "HTTP-Referer": window.location.origin,
-          "X-Title": "AI Career Guidance System",
-        },
-        body: JSON.stringify({
-          model,
-          messages,
-          temperature: 0.2, // more accurate
-          max_tokens: 500, // faster responses
-          stream: false,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ model, messages }),
       });
 
       // Quick retry for transient errors
       if (!response.ok && (response.status === 429 || response.status >= 500)) {
         await new Promise((r) => setTimeout(r, 600));
-        response = await fetch(OPENROUTER_API_URL, {
+        response = await fetch(INTERNAL_CHAT_API, {
           method: "POST",
-          headers: {
-            Authorization: `Bearer ${OPENROUTER_API_KEY}`,
-            "Content-Type": "application/json",
-            "HTTP-Referer": window.location.origin,
-            "X-Title": "AI Career Guidance System",
-          },
-          body: JSON.stringify({
-            model,
-            messages,
-            temperature: 0.2,
-            max_tokens: 500,
-            stream: false,
-          }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ model, messages }),
         });
       }
 
@@ -55,13 +27,11 @@ export const openRouterAPI = {
       if (!response.ok) {
         const apiMessage =
           data?.error?.message || data?.message || JSON.stringify(data);
-        throw new Error(
-          `OpenRouter API error ${response.status}: ${apiMessage}`
-        );
+        throw new Error(`Chat API error ${response.status}: ${apiMessage}`);
       }
       return {
         success: true,
-        message: data.choices[0]?.message?.content || "No response received",
+        message: data.message || "No response received",
         usage: data.usage,
       };
     } catch (error) {
