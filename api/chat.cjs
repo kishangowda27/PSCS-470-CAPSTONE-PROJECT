@@ -25,7 +25,19 @@ module.exports = async (req, res) => {
       inferredOrigin ||
       req.headers?.origin ||
       `https://${req.headers?.host || "vercel.app"}`;
-    const { messages, model } = req.body || {};
+    // Vercel may pass body as a string; parse if needed
+    let body = req.body;
+    if (typeof body === "string") {
+      try {
+        body = JSON.parse(body);
+      } catch (e) {
+        return res
+          .status(400)
+          .json({ error: { message: "Invalid JSON in request body" } });
+      }
+    }
+
+    const { messages, model } = body || {};
     if (!Array.isArray(messages) || messages.length === 0) {
       return res
         .status(400)
@@ -78,6 +90,7 @@ module.exports = async (req, res) => {
         status === 401 || status === 403
           ? `OpenRouter authentication failed (${status}). Check OPENROUTER_API_KEY permissions. Details: ${apiMessage}`
           : `OpenRouter API error ${status}: ${apiMessage}`;
+      console.error("Chat API error:", { status, apiMessage });
       return res.status(status).json({ error: { message } });
     }
 
@@ -88,6 +101,7 @@ module.exports = async (req, res) => {
       provider: data.provider,
     });
   } catch (error) {
+    console.error("Chat API unhandled error:", error);
     return res.status(500).json({ error: { message: error.message } });
   }
 };
