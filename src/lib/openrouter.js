@@ -25,10 +25,13 @@ export const openRouterAPI = {
       const data = await response.json();
 
       if (!response.ok) {
-        const apiMessage = data?.error?.message || data?.message || JSON.stringify(data);
+        const apiMessage =
+          data?.error?.message || data?.message || JSON.stringify(data);
         // If local dev server doesn't serve /api (e.g., Vite), fall back to direct OpenRouter call
-        if (typeof window !== "undefined" && window.location?.hostname === "localhost") {
-          console.warn("/api/chat unavailable or failing locally; falling back to direct OpenRouter call");
+        if (isLocalDev()) {
+          console.warn(
+            "/api/chat unavailable or failing locally; falling back to direct OpenRouter call"
+          );
           return await directOpenRouterCall(messages, model);
         }
         throw new Error(`Chat API error ${response.status}: ${apiMessage}`);
@@ -40,8 +43,11 @@ export const openRouterAPI = {
       };
     } catch (error) {
       // Network or parsing error; try local fallback in dev
-      if (typeof window !== "undefined" && window.location?.hostname === "localhost") {
-        console.warn("/api/chat request failed; attempting direct OpenRouter fallback:", error?.message);
+      if (isLocalDev()) {
+        console.warn(
+          "/api/chat request failed; attempting direct OpenRouter fallback:",
+          error?.message
+        );
         try {
           return await directOpenRouterCall(messages, model);
         } catch (fallbackError) {
@@ -127,13 +133,16 @@ async function directOpenRouterCall(messages, model) {
 
   const data = await response.json();
   if (!response.ok) {
-    const apiMessage = data?.error?.message || data?.message || JSON.stringify(data);
+    const apiMessage =
+      data?.error?.message || data?.message || JSON.stringify(data);
     if (response.status === 401 || response.status === 403) {
       throw new Error(
         `OpenRouter auth failed in local fallback (${response.status}). Check VITE_OPENROUTER_API_KEY. Details: ${apiMessage}`
       );
     }
-    throw new Error(`OpenRouter fallback error ${response.status}: ${apiMessage}`);
+    throw new Error(
+      `OpenRouter fallback error ${response.status}: ${apiMessage}`
+    );
   }
 
   return {
@@ -141,4 +150,10 @@ async function directOpenRouterCall(messages, model) {
     message: data.choices?.[0]?.message?.content || "No response received",
     usage: data.usage,
   };
+}
+
+function isLocalDev() {
+  if (typeof window === "undefined") return false;
+  const host = window.location?.hostname || "";
+  return /^(localhost|127\.0\.0\.1|0\.0\.0\.0)$/i.test(host);
 }
