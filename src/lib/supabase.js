@@ -211,7 +211,29 @@ export const db = {
     const { data, error } = await supabase
       .from("career_goals")
       .select("*")
-      .eq("user_id", userId);
+      .eq("user_id", userId)
+      .order("updated_at", { ascending: false });
+    return { data, error };
+  },
+
+  // Get recent chat messages (for activity)
+  getRecentChatMessages: async (userId, limit = 10) => {
+    const { data, error } = await supabase
+      .from("chat_messages")
+      .select("*")
+      .eq("user_id", userId)
+      .order("timestamp", { ascending: false })
+      .limit(limit);
+    return { data, error };
+  },
+
+  // Get user skills with progress
+  getUserSkillsWithProgress: async (userId) => {
+    const { data, error } = await supabase
+      .from("user_skills")
+      .select("*")
+      .eq("user_id", userId)
+      .order("updated_at", { ascending: false });
     return { data, error };
   },
 };

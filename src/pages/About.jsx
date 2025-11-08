@@ -27,38 +27,12 @@ const About = () => {
   ];
 
   const stats = [
-    { number: '50K+', label: 'Active Users' },
-    { number: '1000+', label: 'Career Paths' },
-    { number: '500+', label: 'Expert Mentors' },
-    { number: '95%', label: 'Success Rate' }
+    { number: 'Growing', label: 'Community' },
+    { number: '100+', label: 'Career Paths' },
+    { number: 'Expanding', label: 'Resources' },
+    { number: 'New', label: 'Platform' }
   ];
 
-  const team = [
-    {
-      name: 'Sarah Johnson',
-      role: 'CEO & Founder',
-      bio: 'Former Google executive with 15+ years in tech leadership and talent development.',
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face'
-    },
-    {
-      name: 'Michael Chen',
-      role: 'CTO',
-      bio: 'AI researcher and former Microsoft engineer specializing in machine learning and data science.',
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face'
-    },
-    {
-      name: 'Emily Rodriguez',
-      role: 'Head of Product',
-      bio: 'Product strategist with a passion for creating user-centered experiences in career development.',
-      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face'
-    },
-    {
-      name: 'David Park',
-      role: 'Head of AI',
-      bio: 'PhD in Machine Learning with expertise in natural language processing and recommendation systems.',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face'
-    }
-  ];
 
   return (
     <div className="space-y-12">
@@ -66,8 +40,8 @@ const About = () => {
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white">About CareerGuide AI</h1>
         <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-          Empowering professionals to navigate their career journey with AI-powered insights, 
-          expert mentorship, and personalized guidance.
+          A new platform empowering professionals to navigate their career journey with AI-powered insights, 
+          expert mentorship, and personalized guidance. This is just the beginning of our journey.
         </p>
       </div>
 
@@ -77,8 +51,9 @@ const About = () => {
           <Heart className="h-12 w-12 text-primary-600 dark:text-primary-400 mx-auto" />
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Our Mission</h2>
           <p className="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
-            To democratize career development by providing everyone with access to personalized, 
-            AI-powered career guidance that was previously only available to the privileged few.
+            As a new project, our mission is to democratize career development by providing everyone 
+            with access to personalized, AI-powered career guidance. We're just getting started, and 
+            we're excited to build this platform alongside our community of users.
           </p>
         </div>
       </Card>
@@ -126,27 +101,27 @@ const About = () => {
       {/* Team */}
       <div className="space-y-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Meet Our Team</h2>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Our Journey</h2>
           <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Our diverse team of experts combines deep industry knowledge with cutting-edge 
-            technology to help you achieve your career goals.
+            We're a new project focused on building a comprehensive career guidance platform. 
+            Our team is passionate about helping professionals achieve their career goals through 
+            innovative technology and personalized support.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {team.map((member, index) => (
-            <Card key={index} className="p-6 text-center">
-              <img
-                src={member.avatar}
-                alt={member.name}
-                className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
-              />
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">{member.name}</h3>
-              <p className="text-primary-600 dark:text-primary-400 text-sm font-medium mb-3">{member.role}</p>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">{member.bio}</p>
-            </Card>
-          ))}
-        </div>
+        <Card className="p-8 text-center">
+          <div className="max-w-2xl mx-auto space-y-4">
+            <p className="text-lg text-gray-700 dark:text-gray-300">
+              This is just the beginning of our journey. We're continuously working to improve 
+              the platform, add new features, and build a community of professionals who are 
+              passionate about career growth and development.
+            </p>
+            <p className="text-gray-600 dark:text-gray-400">
+              As we grow, we'll be expanding our team, resources, and capabilities to better 
+              serve our users and help them achieve their career aspirations.
+            </p>
+          </div>
+        </Card>
       </div>
 
       {/* Company Values */}
@@ -192,7 +167,8 @@ const About = () => {
       <Card className="p-8 bg-gradient-to-r from-primary-500 to-primary-600 text-white text-center">
         <h2 className="text-2xl font-bold mb-4">Ready to Transform Your Career?</h2>
         <p className="text-primary-100 mb-6">
-          Join thousands of professionals who have accelerated their careers with our AI-powered platform.
+          Join us on this journey as we build a comprehensive career guidance platform. 
+          Be part of our growing community and help shape the future of career development.
         </p>
         <button className="bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
           Get Started Today

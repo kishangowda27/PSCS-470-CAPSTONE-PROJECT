@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Card from '../components/Card';
-import { Mail, Phone, MapPin, Send, MessageCircle, Clock, Users } from 'lucide-react';
+import { Mail, Send, MessageCircle, Users } from 'lucide-react';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -28,16 +28,9 @@ const Contact = () => {
     {
       icon: Mail,
       title: 'Email Us',
-      description: 'Send us an email and we\'ll respond within 24 hours',
-      contact: 'support@careerguide.ai',
-      action: 'mailto:support@careerguide.ai'
-    },
-    {
-      icon: Phone,
-      title: 'Call Us',
-      description: 'Speak with our support team directly',
-      contact: '+91 98765 43210',
-      action: 'tel:+919876543210'
+      description: 'Send us an email and we\'ll respond as soon as possible',
+      contact: 'kishangowda204@gmail.com',
+      action: 'mailto:kishangowda204@gmail.com'
     },
     {
       icon: MessageCircle,
@@ -78,7 +71,7 @@ const Contact = () => {
       </div>
 
       {/* Contact Methods */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
         {contactMethods.map((method, index) => {
           const Icon = method.icon;
           return (
@@ -179,35 +172,12 @@ const Contact = () => {
           </form>
         </Card>
 
-        {/* FAQ & Office Info */}
+        {/* FAQ & Support Info */}
         <div className="space-y-6">
-          {/* Office Information */}
+          {/* Support Information */}
           <Card className="p-6">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Our Office</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Support</h3>
             <div className="space-y-4">
-              <div className="flex items-start space-x-3">
-                <MapPin className="h-5 w-5 text-primary-600 dark:text-primary-400 mt-0.5" />
-                <div>
-                  <p className="font-medium text-gray-900 dark:text-white">Headquarters</p>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">
-                    123 Innovation Drive<br />
-                    Bengaluru, KA 560001<br />
-                    India
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex items-start space-x-3">
-                <Clock className="h-5 w-5 text-primary-600 dark:text-primary-400 mt-0.5" />
-                <div>
-                  <p className="font-medium text-gray-900 dark:text-white">Business Hours</p>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">
-                    Monday - Friday: 9:00 AM - 6:00 PM IST<br />
-                    Weekend: Emergency support only
-                  </p>
-                </div>
-              </div>
-
               <div className="flex items-start space-x-3">
                 <Users className="h-5 w-5 text-primary-600 dark:text-primary-400 mt-0.5" />
                 <div>
@@ -238,12 +208,12 @@ const Contact = () => {
       {/* Response Time Notice */}
       <Card className="p-6 bg-primary-50 dark:bg-primary-500/10 border border-primary-200 dark:border-primary-500/30">
         <div className="flex items-center space-x-3">
-          <Clock className="h-5 w-5 text-primary-600 dark:text-primary-400" />
+          <Mail className="h-5 w-5 text-primary-600 dark:text-primary-400" />
           <div>
             <h3 className="font-medium text-primary-900 dark:text-primary-200">Response Time</h3>
             <p className="text-primary-700 dark:text-primary-300 text-sm">
-              We typically respond to all inquiries within 24 hours during business days. 
-              For urgent matters, please call our support line directly.
+              We typically respond to all inquiries as soon as possible. 
+              Please send us an email and we'll get back to you promptly.
             </p>
           </div>
         </div>
