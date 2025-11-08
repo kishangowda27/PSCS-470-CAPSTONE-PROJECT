@@ -52,7 +52,15 @@ const Onboarding = () => {
       };
       const { error: err } = await updateProfile(updates);
       if (err) {
-        setError(err.message || "Failed to save");
+        let errorMessage = err.message || "Failed to save";
+        
+        // Provide helpful message for missing column error
+        if (errorMessage.includes("target_role") || errorMessage.includes("schema cache")) {
+          errorMessage = "Database setup required: The 'target_role' column is missing. Please run this SQL in Supabase Dashboard (SQL Editor):\n\nALTER TABLE public.user_profiles ADD COLUMN IF NOT EXISTS target_role text DEFAULT '';\n\nSee FIX_TARGET_ROLE.md for step-by-step instructions.";
+        }
+        
+        setError(errorMessage);
+        console.error("Profile update error:", err);
         return;
       }
       window.history.back();
@@ -75,8 +83,29 @@ const Onboarding = () => {
       <Card className="p-6">
         <form onSubmit={handleSave} className="space-y-5">
           {error && (
-            <div className="p-3 rounded-lg bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-400">
-              {error}
+            <div className="p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+              <div className="flex items-start">
+                <div className="flex-shrink-0">
+                  <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div className="ml-3 flex-1">
+                  <h3 className="text-sm font-medium text-red-800 dark:text-red-200 mb-2">
+                    Setup Required
+                  </h3>
+                  <div className="text-sm text-red-700 dark:text-red-300 whitespace-pre-line">
+                    {error}
+                  </div>
+                  {error.includes("target_role") && (
+                    <div className="mt-3 p-3 bg-white dark:bg-gray-800 rounded border border-red-200 dark:border-red-700">
+                      <p className="text-xs font-mono text-gray-800 dark:text-gray-200 break-all">
+                        ALTER TABLE public.user_profiles ADD COLUMN IF NOT EXISTS target_role text DEFAULT '';
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           )}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

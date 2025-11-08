@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Card from '../components/Card';
-import { Calendar, MapPin, Users, Clock, Star, Video } from 'lucide-react';
+import { Calendar, MapPin, Users, Clock, Star, Video, ExternalLink } from 'lucide-react';
 import eventsData from '../data/events.json';
 import mentorsData from '../data/mentors.json';
 
@@ -98,8 +98,18 @@ const Events = () => {
                 </div>
 
                 <div className="pt-4 border-t border-gray-100 dark:border-gray-700">
-                  <button className="w-full bg-primary-500 text-white py-2 px-4 rounded-lg hover:bg-primary-600 transition-colors text-sm font-medium">
-                    Register Now
+                  <button 
+                    onClick={() => {
+                      // Open event registration or event page
+                      const eventUrl = event.isVirtual 
+                        ? `https://www.eventbrite.com/e/search/?q=${encodeURIComponent(event.title)}`
+                        : `https://www.google.com/search?q=${encodeURIComponent(event.title + ' ' + event.location + ' registration')}`;
+                      window.open(eventUrl, '_blank', 'noopener,noreferrer');
+                    }}
+                    className="w-full bg-primary-500 text-white py-2 px-4 rounded-lg hover:bg-primary-600 transition-colors text-sm font-medium flex items-center justify-center space-x-2"
+                  >
+                    <span>Register Now</span>
+                    <ExternalLink className="h-4 w-4" />
                   </button>
                 </div>
               </div>
@@ -154,14 +164,22 @@ const Events = () => {
 
                 <div className="pt-4 border-t border-gray-100 dark:border-gray-700">
                   <button 
-                    className={`w-full py-2 px-4 rounded-lg text-sm font-medium transition-colors ${
+                    onClick={() => {
+                      if (mentor.availability === 'Available') {
+                        // Open mentorship booking or LinkedIn profile
+                        const mentorUrl = `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(mentor.name + ' ' + mentor.company)}`;
+                        window.open(mentorUrl, '_blank', 'noopener,noreferrer');
+                      }
+                    }}
+                    className={`w-full py-2 px-4 rounded-lg text-sm font-medium transition-colors flex items-center justify-center space-x-2 ${
                       mentor.availability === 'Available'
                         ? 'bg-primary-500 text-white hover:bg-primary-600'
                         : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
                     }`}
                     disabled={mentor.availability !== 'Available'}
                   >
-                    {mentor.availability === 'Available' ? 'Book Session' : 'Not Available'}
+                    <span>{mentor.availability === 'Available' ? 'Book Session' : 'Not Available'}</span>
+                    {mentor.availability === 'Available' && <ExternalLink className="h-4 w-4" />}
                   </button>
                 </div>
               </div>

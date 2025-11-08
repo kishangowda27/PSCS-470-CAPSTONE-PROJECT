@@ -125,21 +125,20 @@ const Dashboard = () => {
             Quick Actions
           </h2>
           <div className="space-y-3">
-            {!userProfile?.interests?.length && (
+            {(!userProfile?.interests?.length || !userProfile?.title) && (
               <Link
                 to="/onboarding"
-                className="flex items-center space-x-4 p-3 rounded-lg bg-primary-50 dark:bg-primary-900/20 hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-colors"
+                className="flex items-center space-x-4 p-4 rounded-lg bg-primary-100 dark:bg-primary-900/30 border-2 border-primary-300 dark:border-primary-700 hover:bg-primary-200 dark:hover:bg-primary-900/40 transition-all shadow-sm"
               >
-                <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold">1</span>
+                <div className="w-12 h-12 bg-primary-600 dark:bg-primary-500 rounded-lg flex items-center justify-center flex-shrink-0 shadow-md">
+                  <span className="text-white font-bold text-lg">1</span>
                 </div>
-                <div>
-                  <h3 className="font-medium text-gray-900 dark:text-white">
+                <div className="flex-1">
+                  <h3 className="font-semibold text-primary-900 dark:text-primary-100 mb-1">
                     Complete your profile
                   </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Add interests and your target role so we can personalize
-                    your journey.
+                  <p className="text-sm text-primary-700 dark:text-primary-300 leading-relaxed">
+                    Add interests and your target role so we can personalize your journey and provide better career recommendations.
                   </p>
                 </div>
               </Link>

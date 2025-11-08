@@ -1,56 +1,201 @@
 [
   {
     "id": 1,
-    "title": "Data Scientist",
-    "description": "Analyze complex datasets to extract insights and build predictive models using machine learning and statistical techniques.",
-    "requiredSkills": ["Python", "Machine Learning", "Statistics", "SQL", "Data Visualization"],
-    "averageSalary": "₹15 LPA",
-    "growthRate": "22%",
-    "category": "Technology"
+    "title": "Web Developer",
+    "description": "Build and maintain websites and web applications using front-end and back-end technologies.",
+    "requiredSkills": ["HTML", "CSS", "JavaScript", "ReactJS", "Node.js"],
+    "averageSalary": "₹8-15 LPA",
+    "growthRate": "15%",
+    "category": "Software Development",
+    "resources": [
+      {
+        "title": "Web Developer Roadmap",
+        "url": "https://roadmap.sh/full-stack"
+      },
+      {
+        "title": "MDN Web Docs - Web Development",
+        "url": "https://developer.mozilla.org/en-US/docs/Learn"
+      }
+    ]
   },
   {
     "id": 2,
-    "title": "UX/UI Designer",
-    "description": "Create intuitive and visually appealing user interfaces while ensuring optimal user experience across digital platforms.",
-    "requiredSkills": ["Figma", "User Research", "Prototyping", "Visual Design", "Usability Testing"],
-    "averageSalary": "₹10 LPA",
-    "growthRate": "13%",
-    "category": "Design"
+    "title": "Software Engineer",
+    "description": "Design, develop, and maintain scalable software systems and applications.",
+    "requiredSkills": ["Java", "Python", "C++", "Data Structures"],
+    "averageSalary": "₹12-25 LPA",
+    "growthRate": "22%",
+    "category": "Software Development",
+    "resources": [
+      {
+        "title": "Software Engineer Career Path - Coursera",
+        "url": "https://www.coursera.org/articles/software-engineer-career-path"
+      }
+    ]
   },
   {
     "id": 3,
-    "title": "Cloud Solutions Architect",
-    "description": "Design and implement scalable cloud infrastructure solutions for enterprise-level applications.",
-    "requiredSkills": ["AWS", "Azure", "System Design", "DevOps", "Security"],
-    "averageSalary": "₹25 LPA",
-    "growthRate": "15%",
-    "category": "Technology"
+    "title": "Data Scientist",
+    "description": "Analyze data to gain insights and build predictive models using machine learning.",
+    "requiredSkills": ["Data Analysis", "Statistics", "Machine Learning", "Deep Learning"],
+    "averageSalary": "₹15-30 LPA",
+    "growthRate": "22%",
+    "category": "AI & Data",
+    "resources": [
+      {
+        "title": "Data Science Roadmap 2025",
+        "url": "https://roadmap.sh/data-science"
+      }
+    ]
   },
   {
     "id": 4,
-    "title": "Digital Marketing Manager",
-    "description": "Develop and execute comprehensive digital marketing strategies to drive brand awareness and customer acquisition.",
-    "requiredSkills": ["SEO/SEM", "Social Media", "Analytics", "Content Strategy", "PPC"],
-    "averageSalary": "₹8 LPA",
-    "growthRate": "10%",
-    "category": "Marketing"
+    "title": "Machine Learning Engineer",
+    "description": "Design and deploy ML models into production for automation and prediction tasks.",
+    "requiredSkills": ["Machine Learning", "Deep Learning", "Natural Language Processing", "MLOps"],
+    "averageSalary": "₹18-35 LPA",
+    "growthRate": "25%",
+    "category": "AI & Data",
+    "resources": [
+      {
+        "title": "ML Engineer Career Guide - Google",
+        "url": "https://developers.google.com/machine-learning"
+      }
+    ]
   },
   {
     "id": 5,
-    "title": "Cybersecurity Analyst",
-    "description": "Protect organizational assets by monitoring, detecting, and responding to security threats and vulnerabilities.",
-    "requiredSkills": ["Network Security", "Incident Response", "Risk Assessment", "Penetration Testing", "SIEM"],
-    "averageSalary": "₹12 LPA",
-    "growthRate": "33%",
-    "category": "Technology"
+    "title": "Cloud Engineer",
+    "description": "Build and manage cloud infrastructure using AWS, Azure, or Google Cloud.",
+    "requiredSkills": ["AWS", "Docker", "Kubernetes", "CI/CD"],
+    "averageSalary": "₹12-28 LPA",
+    "growthRate": "18%",
+    "category": "Cloud & DevOps",
+    "resources": [
+      {
+        "title": "Cloud Engineer Learning Path",
+        "url": "https://cloud.google.com/learn/paths"
+      }
+    ]
   },
   {
     "id": 6,
-    "title": "Product Manager",
-    "description": "Drive product strategy and roadmap, working cross-functionally to deliver innovative solutions that meet market needs.",
-    "requiredSkills": ["Product Strategy", "Agile", "Market Research", "Data Analysis", "Communication"],
-    "averageSalary": "₹20 LPA",
-    "growthRate": "19%",
-    "category": "Management"
+    "title": "DevOps Engineer",
+    "description": "Automate deployments, manage CI/CD pipelines, and monitor infrastructure.",
+    "requiredSkills": ["CI/CD", "Linux Administration", "Docker"],
+    "averageSalary": "₹10-22 LPA",
+    "growthRate": "20%",
+    "category": "Cloud & DevOps",
+    "resources": [
+      {
+        "title": "DevOps Roadmap 2025",
+        "url": "https://roadmap.sh/devops"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Mobile App Developer",
+    "description": "Design and develop mobile applications for Android and iOS using frameworks like React Native or Flutter.",
+    "requiredSkills": ["JavaScript", "Kotlin", "Swift", "Flutter"],
+    "averageSalary": "₹8-18 LPA",
+    "growthRate": "16%",
+    "category": "Software Development",
+    "resources": [
+      {
+        "title": "React Native Docs",
+        "url": "https://reactnative.dev/docs/getting-started"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Digital Marketing Specialist",
+    "description": "Plan and execute marketing campaigns across social media, email, and SEO channels.",
+    "requiredSkills": ["SEO", "Google Ads", "Email Marketing", "Analytics"],
+    "averageSalary": "₹6-12 LPA",
+    "growthRate": "12%",
+    "category": "Marketing",
+    "resources": [
+      {
+        "title": "Digital Marketing Course - Google",
+        "url": "https://learndigital.withgoogle.com/digitalunlocked"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "title": "UI/UX Designer",
+    "description": "Design user-friendly interfaces and craft smooth user experiences for websites and apps.",
+    "requiredSkills": ["Wireframing", "Prototyping", "User Research"],
+    "averageSalary": "₹8-15 LPA",
+    "growthRate": "13%",
+    "category": "Design",
+    "resources": [
+      {
+        "title": "UI/UX Design Roadmap",
+        "url": "https://roadmap.sh/ux-design"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Cybersecurity Analyst",
+    "description": "Protect systems and data from security threats using tools and ethical hacking techniques.",
+    "requiredSkills": ["Network Security", "Ethical Hacking", "Penetration Testing", "Cryptography"],
+    "averageSalary": "₹10-20 LPA",
+    "growthRate": "33%",
+    "category": "Security",
+    "resources": [
+      {
+        "title": "Cybersecurity Learning Path - IBM",
+        "url": "https://www.ibm.com/skills/cybersecurity"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "title": "Full Stack Developer",
+    "description": "Develop both front-end and back-end of web applications, handling everything from user interface to server logic.",
+    "requiredSkills": ["HTML", "CSS", "JavaScript", "ReactJS", "Node.js"],
+    "averageSalary": "₹10-20 LPA",
+    "growthRate": "18%",
+    "category": "Software Development",
+    "resources": [
+      {
+        "title": "Full Stack Developer Roadmap",
+        "url": "https://roadmap.sh/full-stack"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Backend Developer",
+    "description": "Build server-side logic, APIs, and databases that power web and mobile applications.",
+    "requiredSkills": ["Python", "Node.js", "Java", "Data Structures"],
+    "averageSalary": "₹9-18 LPA",
+    "growthRate": "17%",
+    "category": "Software Development",
+    "resources": [
+      {
+        "title": "Backend Developer Roadmap",
+        "url": "https://roadmap.sh/backend"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "title": "Frontend Developer",
+    "description": "Create user-facing features and interfaces for web applications using modern frameworks.",
+    "requiredSkills": ["HTML", "CSS", "JavaScript", "ReactJS"],
+    "averageSalary": "₹7-15 LPA",
+    "growthRate": "16%",
+    "category": "Software Development",
+    "resources": [
+      {
+        "title": "Frontend Developer Roadmap",
+        "url": "https://roadmap.sh/frontend"
+      }
+    ]
   }
 ]

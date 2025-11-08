@@ -65,18 +65,27 @@ export const openRouterAPI = {
 User Profile:
 - Name: ${userProfile.name || "User"}
 - Current Title: ${userProfile.title || "Not specified"}
+- Target Role: ${userProfile.target_role || "Not specified"}
 - Location: ${userProfile.location || "Not specified"}
 - Interests: ${userProfile.interests?.join(", ") || "Not specified"}
 - Bio: ${userProfile.bio || "Not specified"}
 
 Provide helpful, actionable career advice that is:
-1. Personalized to their background and goals
-2. Practical and implementable
+1. Personalized to their background, interests, and target role
+2. Practical and implementable with specific steps
 3. Encouraging and supportive
-4. Based on current industry trends
-5. Specific with concrete next steps
+4. Based on current industry trends (2024-2025)
+5. Specific with concrete next steps and resources
+6. Aligned with their target role if specified
 
-Keep responses concise but comprehensive, around 200-300 words.`;
+When providing advice:
+- Reference specific skills they should learn based on their target role
+- Suggest relevant learning resources and platforms
+- Provide actionable steps they can take immediately
+- Consider their current title and how to bridge to their target role
+- Be encouraging and realistic about timelines
+
+Keep responses concise but comprehensive, around 250-400 words. Use bullet points for clarity when listing skills or steps.`;
 
     const messages = [
       { role: "system", content: systemPrompt },
@@ -105,8 +114,8 @@ async function directOpenRouterCall(messages, model) {
     body: JSON.stringify({
       model,
       messages,
-      temperature: 0.2,
-      max_tokens: 500,
+      temperature: 0.7,
+      max_tokens: 1000,
       stream: false,
     }),
   });
@@ -124,8 +133,8 @@ async function directOpenRouterCall(messages, model) {
       body: JSON.stringify({
         model,
         messages,
-        temperature: 0.2,
-        max_tokens: 500,
+        temperature: 0.7,
+        max_tokens: 1000,
         stream: false,
       }),
     });

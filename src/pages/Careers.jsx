@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import Card from '../components/Card';
-import { TrendingUp, Users, Search } from 'lucide-react';
+import { TrendingUp, Users, Search, ExternalLink } from 'lucide-react';
 import careersData from '../data/careers.json';
 
 const Careers = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const categories = ['All', 'Technology', 'Design', 'Marketing', 'Management'];
+  const categories = ['All', 'Software Development', 'AI & Data', 'Cloud & DevOps', 'Marketing', 'Design', 'Security'];
 
   const filteredCareers = careersData.filter(career => {
     const matchesSearch = career.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -101,10 +101,33 @@ const Careers = () => {
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-gray-100 dark:border-gray-700">
-                <button className="w-full bg-primary-500 text-white py-2 px-4 rounded-lg hover:bg-primary-600 transition-colors text-sm font-medium">
-                  Explore Career Path
-                </button>
+              <div className="pt-4 border-t border-gray-100 dark:border-gray-700 space-y-2">
+                {career.resources && career.resources.length > 0 ? (
+                  career.resources.map((resource, index) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        window.open(resource.url, '_blank', 'noopener,noreferrer');
+                      }}
+                      className="w-full bg-primary-500 text-white py-2 px-4 rounded-lg hover:bg-primary-600 transition-colors text-sm font-medium flex items-center justify-center space-x-2"
+                    >
+                      <span>{resource.title}</span>
+                      <ExternalLink className="h-4 w-4" />
+                    </button>
+                  ))
+                ) : (
+                  <button 
+                    onClick={() => {
+                      // Fallback to Coursera search if no resources
+                      const careerUrl = `https://www.coursera.org/search?query=${encodeURIComponent(career.title + ' career path')}`;
+                      window.open(careerUrl, '_blank', 'noopener,noreferrer');
+                    }}
+                    className="w-full bg-primary-500 text-white py-2 px-4 rounded-lg hover:bg-primary-600 transition-colors text-sm font-medium flex items-center justify-center space-x-2"
+                  >
+                    <span>Explore Career Path</span>
+                    <ExternalLink className="h-4 w-4" />
+                  </button>
+                )}
               </div>
             </div>
           </Card>

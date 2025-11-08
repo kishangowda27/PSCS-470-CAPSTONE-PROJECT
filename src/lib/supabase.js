@@ -18,14 +18,30 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 // Auth helper functions
 export const auth = {
   signUp: async (email, password, userData = {}) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: userData,
-      },
-    });
-    return { data, error };
+    // Sign up user - Supabase will automatically send verification email
+    // Make sure email confirmation is enabled in Supabase dashboard
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: userData,
+          emailRedirectTo: `${window.location.origin}/dashboard`, // Redirect after email confirmation
+        },
+      });
+      
+      // Log for debugging
+      if (error) {
+        console.error("Supabase sign up error:", error);
+      } else {
+        console.log("Sign up successful, user created:", data.user?.id);
+      }
+      
+      return { data, error };
+    } catch (err) {
+      console.error("Sign up exception:", err);
+      return { data: null, error: err };
+    }
   },
 
   signIn: async (email, password) => {
@@ -48,16 +64,84 @@ export const auth = {
   onAuthStateChange: (callback) => {
     return supabase.auth.onAuthStateChange(callback);
   },
+
+  // Forgot password - sends OTP to email
+  resetPasswordForEmail: async (email) => {
+    // Use signInWithOtp to send OTP code for password recovery
+    // This will send a 6-digit OTP code to the user's email
+    // Note: Supabase email templates must be configured to show OTP codes
+    const { data, error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        shouldCreateUser: false, // Don't create user if doesn't exist
+        // This ensures OTP is sent instead of magic link
+        // The email template in Supabase dashboard should display {{ .Token }} for OTP
+      },
+    });
+    return { data, error };
+  },
+
+  // Verify OTP and update password
+  updatePassword: async (newPassword) => {
+    const { data, error } = await supabase.auth.updateUser({
+      password: newPassword,
+    });
+    return { data, error };
+  },
+
+  // Verify OTP token
+  verifyOtp: async (email, token, type = "email") => {
+    // Verify OTP code - use 'email' type for OTP verification
+    // After verification, user will be signed in and can reset password
+    const { data, error } = await supabase.auth.verifyOtp({
+      email,
+      token,
+      type: "email", // Always use 'email' type for OTP verification
+    });
+    return { data, error };
+  },
 };
 
 // Database helper functions
 export const db = {
   // User profiles
   createUserProfile: async (userId, profileData) => {
-    const { data, error } = await supabase
-      .from("user_profiles")
-      .insert([{ user_id: userId, ...profileData }]);
-    return { data, error };
+    try {
+      console.log("Creating user profile for:", userId, profileData);
+      
+      const { data, error } = await supabase
+        .from("user_profiles")
+        .insert([{ user_id: userId, ...profileData }])
+        .select()
+        .single();
+
+      if (error) {
+        console.error("Profile creation error:", error);
+        // If profile already exists, try to update it
+        if (error.code === "23505") {
+          // Unique violation - profile already exists
+          console.log("Profile already exists, updating...");
+          const { data: updateData, error: updateError } = await supabase
+            .from("user_profiles")
+            .update(profileData)
+            .eq("user_id", userId)
+            .select()
+            .single();
+          
+          if (updateError) {
+            console.error("Profile update error:", updateError);
+          }
+          return { data: updateData, error: updateError };
+        }
+        return { data: null, error };
+      }
+      
+      console.log("Profile created successfully:", data);
+      return { data, error: null };
+    } catch (err) {
+      console.error("Profile creation exception:", err);
+      return { data: null, error: err };
+    }
   },
 
   getUserProfile: async (userId) => {

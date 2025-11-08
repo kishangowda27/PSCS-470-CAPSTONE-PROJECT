@@ -55,8 +55,8 @@ module.exports = async (req, res) => {
       body: JSON.stringify({
         model: model || defaultModel,
         messages,
-        temperature: 0.2,
-        max_tokens: 500,
+        temperature: 0.7,
+        max_tokens: 1000,
         stream: false,
       }),
     });
@@ -75,8 +75,8 @@ module.exports = async (req, res) => {
         body: JSON.stringify({
           model: model || defaultModel,
           messages,
-          temperature: 0.2,
-          max_tokens: 500,
+          temperature: 0.7,
+          max_tokens: 1000,
           stream: false,
         }),
       });
